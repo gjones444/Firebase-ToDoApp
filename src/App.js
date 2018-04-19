@@ -2,22 +2,67 @@ import React, { Component } from 'react';
 import Note from './Note/Note';
 import './App.css';
 import Noteform from './Noteform/Noteform';
+import {DB_CONFIG} from './config/config.js';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 class App extends Component {
 
   constructor(props){
     super(props);
+    this.addNote = this.addNote.bind(this);
+    this.removeNote = this.removeNote.bind(this);
+    this.updateNote = this.updateNote.bind(this);
+    this.app = firebase.initializeApp(DB_CONFIG);
+    this.database = this.app.database().ref().child('notes');
+
     this.state = {
-      notes: [
-        { id: 1, noteContent: "Note 1"},
-        { id: 2, noteContent: "Note 1"}
-      ],
+      notes: [],
     }
+
+  }
+
+  componentWillMount(){
+    const previousNotes = this.state.notes
+
+    // Firebase displays data as a snapshot
+    this.database.on('child_added', snap => {
+      console.log(snap)
+      previousNotes.push({
+        id: snap.key,
+        noteContent: snap.val().noteContent,
+      })
+
+      this.setState({
+        notes: previousNotes
+      })
+
+      this.database.on('child_removed', snap => {
+        for(var i=0; i < previousNotes.length; i++){
+          if(previousNotes[i].id === snap.key){
+            previousNotes.splice(i, 1);
+          }
+        }
+
+        this.setState({
+          notes: previousNotes
+        })
+      })
+
+    })
+
   }
 
   addNote(note){
-    const previousNote = this.state.notes
-    previousNote.push(note)
+    this.database.push().set({ noteContent: note})
+  }
+
+  removeNote(noteId){
+    this.database.child(noteId).remove();
+  }
+
+  updateNote(noteId){
+
   }
 
   render() {
@@ -33,7 +78,8 @@ class App extends Component {
                 <Note noteContent={note.noteContent}
                 noteId={note.id}
                 key={note.id}
-                removeNote ={this.removeNote}/>
+                removeNote ={this.removeNote}
+                updateNote ={this.updateNote}/>
               )
             })
           }

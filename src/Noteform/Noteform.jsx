@@ -12,7 +12,7 @@ class Noteform extends Component{
   }
 
   handleUserInput(e){
-    console.log(this)
+    // console.log(this)
     this.setState({
       newNoteContent: e.target.value, // text input
     })

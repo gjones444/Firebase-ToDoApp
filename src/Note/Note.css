@@ -30,7 +30,7 @@
   display: block;
 }
 
-.closebtn {
+.closebtn, .updatebtn {
     color: #AA9;
     font-weight: bold;
     float: right;
@@ -38,6 +38,6 @@
     font-size: 1.3em;
 }
 
-.closebtn:hover {
+.closebtn:hover, .updatebtn:hover {
     color: #AC2500;
 }
