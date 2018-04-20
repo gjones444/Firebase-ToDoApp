@@ -18,6 +18,7 @@ class App extends Component {
 
     this.state = {
       notes: [],
+      updatedNote: ''
     }
 
   }
@@ -54,7 +55,7 @@ class App extends Component {
   }
 
   addNote(note){
-    this.database.push().set({ noteContent: note})
+    this.database.push().set({ noteContent: note })
   }
 
   removeNote(noteId){
@@ -62,6 +63,8 @@ class App extends Component {
   }
 
   updateNote(noteId){
+    // this.database.child(noteId).update()
+
 
   }
 
@@ -87,6 +90,7 @@ class App extends Component {
         <div className="notesFooter">
           <Noteform addNote={this.addNote}/>
         </div>
+
       </div>
     )
   }

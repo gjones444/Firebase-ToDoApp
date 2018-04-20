@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Note.css';
 import PropTypes from 'prop-types';
+import Popup from "reactjs-popup";
 
 class Note extends Component{
 
@@ -27,12 +28,19 @@ class Note extends Component{
                       onClick={() => this.handleRemoveNote(this.noteId)}>
                       &otimes;
                 </span>
-                <span className="updatebtn"
-                      onClick={() => this.handleUpdateNote(this.noteId)}>
-                      &oplus;
-                </span>
+                  <div className="Modalson">
+                    <Popup
+                      trigger={<span className="updatebtn"> &oplus; </span>}
+                      modal
+                      closeOnDocumentClick
+                    >
+                    <input
+                      placeholder="Write a new note..."/>
+                    <button>Update</button>
+                    </Popup>
+                  </div>
                 <p className="noteContent">{ this.noteContent }</p>
-            </div>
+      </div>
     )
   }
 }

@@ -27,6 +27,7 @@ class Noteform extends Component{
 
   render(){
     return(
+
       <div className="formWrapper">
         <input className="NoteInput"
           placeholder="Write a new note..."
@@ -34,6 +35,7 @@ class Noteform extends Component{
           onChange={this.handleUserInput}/>
         <button className="noteButton" onClick={this.writeNote}>Add Note</button>
       </div>
+
     )
 
   }

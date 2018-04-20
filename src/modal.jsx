@@ -1,35 +1,13 @@
-import React, { Component } from 'react';
-import {ModalContainer, ModalDialog} from 'react-modal-dialog';
-import PropTypes from 'prop-types';
+import React from "react";
+import Popup from "reactjs-popup";
+import './App.css';
 
-class Modal extends Component{
-
-  constructor(props){
-        super(props);
-        this.state = {
-            isShowingModal: false,
-          }
-  }
-
-    handleClick = () => this.setState({isShowingModal: true})
-    handleClose = () => this.setState({isShowingModal: false})
-    render() {
-      return <div onClick={this.handleClick}>
-        {
-          this.state.isShowingModal &&
-          <ModalContainer onClose={this.handleClose}>
-            <ModalDialog onClose={this.handleClose}>
-              <h1>Dialog Content</h1>
-              <p>More Content. Anything goes here</p>
-            </ModalDialog>
-          </ModalContainer>
-        }
-      </div>;
-  }
-}
-
-Modal.propTypes = {
-    Modal: PropTypes.string,
-};
-
-export default Modal;
+export default () => (
+  <Popup
+    trigger={<button className="button"> Open Modal </button>}
+    modal
+    closeOnDocumentClick
+  >
+    <span> Modal content </span>
+  </Popup>
+);
