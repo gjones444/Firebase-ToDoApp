@@ -18,7 +18,6 @@ class App extends Component {
 
     this.state = {
       notes: [],
-      updatedNote: ''
     }
 
   }
@@ -28,7 +27,7 @@ class App extends Component {
 
     // Firebase displays data as a snapshot
     this.database.on('child_added', snap => {
-      console.log(snap)
+      // console.log(snap.key)
       previousNotes.push({
         id: snap.key,
         noteContent: snap.val().noteContent,
@@ -50,11 +49,24 @@ class App extends Component {
         })
       })
 
+      this.database.on('child_changed', snap => {
+        for(var i=0; i < previousNotes.length; i++){
+          if(previousNotes[i].id === snap.key){
+            console.log(previousNotes)
+          }
+        }
+
+        this.setState({
+          notes: previousNotes
+        })
+      })
+
     })
 
   }
 
   addNote(note){
+    console.log(this.database.child('notes'))
     this.database.push().set({ noteContent: note })
   }
 
@@ -62,10 +74,8 @@ class App extends Component {
     this.database.child(noteId).remove();
   }
 
-  updateNote(noteId){
-    // this.database.child(noteId).update()
-
-
+  updateNote(note, noteId){
+    this.database.child(noteId).set({ noteContent: note })
   }
 
   render() {
